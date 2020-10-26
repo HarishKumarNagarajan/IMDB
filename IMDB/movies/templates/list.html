@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+<title>Search Result</title>
+    <link rel="icon" sizes="192x192" href="{% static 'movies/assets/images/icon-hd.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/assets/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/assets/css/responsive.css' %}">
+    <style>
+        .back{
+            background: url("{% static 'movies/assets/images/posters/movie-collection.jpg' %}");
+        }
+        html,body{
+			height: auto !important;
+		}
+
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <div class="loading-inner">
+        <div class="loading-effect">
+        <div class="object"></div>
+        </div>
+        </div>
+        </div>
+        <div class="wrapper">
+            <a class="navbar-brand" href="" style="position: absolute;z-index: 1;padding: 40px;">
+                    <img src="{% static 'movies/assets/images/logo-white.svg' %}" alt="white logo" width="150" class="logo-white">
+            </a>
+            <div style="position: absolute;top:100px;z-index: 1;right:0;left:0;margin: auto;" class="search-form-wrapper search-form-rev">
+                <div class="container">
+                <form id="search-form-1" method="GET" action="">
+                <div class="row justify-content-center">
+                <div class="col-md-8 col-sm-10 col-12">
+                <div class="form-group">
+                <input  type="text"  value class="form-control" name="query" placeholder="Enter Movies or Series Title">
+                <button style="right: -13px;height: 56px;" type="submit" class="btn btn-main btn-effect"><i class="fa fa-search"></i></button>
+                </div>
+                </div>
+                </div>
+                </form>
+                
+                </div>
+                </div>
+            <section style="padding: 120px 0px;" class="page-header overlay-gradient back">   
+                </section>
+                <main class="ptb20">
+                    <div class="container">
+                        <div class="row">
+                            {% if has_result %}
+                                {% for movie in search_result %}
+                                   <!-- {{movie}} -->
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="movie-box-2 mb30">
+                                            <div class="listing-container">
+                                                <div class="listing-image">
+                                                    <div class="stars">
+                                                        <div class="rating">
+                                                            <p class="movies__item-rating hide">{{ movie.vote_average }}/10</p>
+                                                        </div>
+                                                    </div>
+                                                    <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}" alt onerror="this.src='https://dummyimage.com/600x900/ababab/ffffff.png&amp;text=+Poster'">
+                                                </div>
+                                                <div class="listing-content">
+                                                    <div class="inner">
+                                                    <h2 style="height: 100px;overflow: hidden;" class="title">{{movie.title}}</h2>
+                                                    <p style="height: 100px;overflow: hidden;">{{movie.overview}}</p>
+                                                    <a href="{% url 'details' %}{{ movie.id }}" id="modal-trigger" class="btn btn-main btn-effect">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <i class="movies__item-star fa fa-star hide"></i>
+                                        <p class="movies__item-rating hide">{{ movie.vote_average }}/10</p> -->
+                                        <!-- <a href="{% url 'details' %}{{ movie.id }}" id="modal-trigger" class="movies__item-expander hide">View Details</a> -->
+                                        <!-- <img class="movies__item-image" src='https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ movie.poster_path }}' onerror="this.src='https://dummyimage.com/600x900/ababab/ffffff.png&amp;text=+Poster'"/> -->
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="movies__item-title">No results found.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </main>
+        </div>
+
+        <script src="{% static 'movies/assets/js/jquery-3.2.1.min.js' %}"></script>
+        <script src="{% static 'movies/assets/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'movies/assets/js/custom.js' %}"></script>
+</body>
+</html>
+

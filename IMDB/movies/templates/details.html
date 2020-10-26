@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+{% load static %} {% block content %}
+<html>
+<head>
+<title>Details | {{ info.title }}</title>
+    <link rel="icon" sizes="192x192" href="{% static 'movies/assets/images/icon-hd.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/assets/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'movies/assets/css/responsive.css' %}">
+    <style>
+        .back{
+            background: url("{% static 'movies/assets/images/posters/movie-collection.jpg' %}");
+        }
+        html,body{
+			height: auto !important;
+		}
+
+    </style>
+</head>
+<body>
+    <div class="loading">
+<div class="loading-inner">
+<div class="loading-effect">
+<div class="object"></div>
+</div>
+</div>
+</div>
+<div class="wrapper">
+    <a class="navbar-brand" href="" style="position: absolute;z-index: 1;padding: 40px;">
+        <img src="{% static 'movies/assets/images/logo-white.svg' %}" alt="white logo" width="150" class="logo-white">
+    </a>
+    <section style="padding: 120px 0px;" class="page-header overlay-gradient back">   
+    </section>
+    <section style="margin-top: -125px;" class="movie-detail-intro2">
+        <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+        <div class="movie-poster">
+        <img style="height: 300px;width: 300px;" src="https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ info.poster_path }}" onerror="this.src='https://dummyimage.com/600x900/ababab/ffffff.png&amp;text=+Poster'" alt>
+        {% for trailer in trailers %}
+        <a target="_blank" href="https://www.youtube.com/watch?v={{ trailer.key }}" class="play-video">
+            {% endfor %}
+        <i class="fa fa-play"></i>
+        </a>
+        </div>
+        <div class="movie-details">
+        <h3 class="title">{{ info.title }}</h3>
+        <ul class="movie-subtext">
+       
+        {% if info.runtime %}
+            <li>{{ info.runtime }} mins</li>  
+        {% endif %}
+        
+        <li>
+            {% if info.genres %} 
+                            {% for genre in info.genres %}
+                                {{ genre.name }}
+                            {% endfor %}
+                            {% endif %} 
+        </li>
+        <li>({{ year }})</li>
+        </ul>
+        </div>
+        <div class="clearfix"></div>
+        </div>
+        </div>
+        </div>
+        </section>
+
+        <section class="movie-detail-main ptb100">
+            <div class="container">
+            <div class="row">
+            
+            <div class="col-lg-8 col-sm-12">
+            <div class="inner pr50">
+                
+            <div class="storyline">
+            <h3 class="title">Storyline</h3>
+            <label>{{ info.tagline }}</label>
+            <p>{{ info.overview }}</p>
+            </div>
+            {% if trailers %}
+                {% for trailer in trailers %}
+                <div class="embed-responsive embed-responsive-4by3">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ trailer.key }}"></iframe>
+                </div>
+                {% endfor %}
+            {% endif %} 
+            
+            <div class="movie-media mt50">
+                {% if reviews %}
+                    <div class="details__content-header">
+                        <h3 class="title">Reviews</h3>
+                    </div>
+                    {% for review in reviews %}
+                        <div class="details__content">
+                            <p>{{ review.author }}</p>
+                            <p style="font-size: 1rem;">{{ review.content }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            </div>
+            </div>
+            
+            
+            <div class="col-lg-4 col-sm-12">
+            <div class="sidebar">
+            
+            <aside class="widget widget-movie-details">
+            <h3 class="title">Other Details</h3>
+            <ul>
+                <li>
+                    {% if info.release_date %}
+                        <strong>Release Date: </strong>
+                            {{info.release_date}}
+                        {% endif %}
+                    </li>
+                <li>
+                    {% if info.production_countries %}
+                        <strong>Production Countries: </strong>
+                        {% for language in info.production_countries %}
+                             {{ language.name }}
+                        {% endfor %}
+                        {% endif %}
+                    </li>
+            <li>
+            {% if info.spoken_languages %}
+                <strong>Language: </strong>
+                {% for language in info.spoken_languages %}
+                     {{ language.name }}
+                {% endfor %}
+                {% endif %}
+            </li>
+            <li>
+                {% if info.production_companies %} 
+                    <strong>Production Co: </strong>
+                            {% for company in info.production_companies %}
+                                {{ company.name }}
+                            {% endfor %}
+                {% endif %}
+            </li>
+            <li>
+                <strong>Rating: </strong>
+                <i class="fa fa-star"></i>{{ info.vote_average }}/10
+            </li>
+            </ul>
+            </aside>
+            {% if cast %}
+                <aside class="widget widget-movie-cast">
+                <h3 class="title">Cast</h3>
+                <ul class="cast-wrapper">
+                    {% for member in cast %}
+                    <li>
+                        <h6 class="name">{{ member.name }}</h6>
+                        {% if member.character %}
+                            <p style="display:inline; color: limegreen; font-size: 1rem;">as {{ member.character }}</p>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+            </ul>
+            </aside>
+            {% endif %}
+
+            {% if crew %}
+                <aside class="widget widget-movie-cast">
+                <h3 class="title">Crew</h3>
+                <ul class="cast-wrapper">
+                    {% for member in crew %}
+                    <li>
+                        <h6 class="name">{{ member.name }}</h6>
+                        {% if member.job %}
+                            <p style="display:inline; color: limegreen; font-size: 1rem;">as {{ member.job }}</p>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+            </ul>
+            </aside>
+            {% endif %}
+
+            </div>
+            </div>
+            
+
+            
+            </div>
+            </div>
+            </section>
+</div>
+<script src="{% static 'movies/assets/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'movies/assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'movies/assets/js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'movies/assets/js/custom.js' %}"></script>
+
+    </body>
+    </html>
+
+
+
+{% endblock content %}
